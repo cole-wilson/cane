@@ -1,6 +1,7 @@
-let v;
+let v = document.getElementsByTagName("video")[0];
 
-v = document.getElementsByTagName("video")[0];
+if (!v)
+	return {}
 
 let output = {};
 
