@@ -25,10 +25,10 @@ def setBandwidth(Kbps):
 
 driver = webdriver.Chrome()
 
-driver.get("https://www.youtube.com/watch?v=KLuTLF3x9sA")
+# driver.get("https://www.youtube.com/watch?v=KLuTLF3x9sA")
+driver.get("https://www.speedtest.net/")
 # driver.get("https://vimeo.com/15298502")
 # driver.get("https://www.tbs.com/shows/the-big-bang-theory/season-7/episode-8/the-itchy-brain-simulation")
-# driver.get("https://www.c-span.org/video/?538521-1/simulcast-cbs-news-vice-presidential-debate")
 
 driver.implicitly_wait(0.5)
 
@@ -43,7 +43,7 @@ body.send_keys("Space")
 
 driver.execute_script("document.getElementsByTagName('video')[0].play()")
 print('play')
-time.sleep(5)
+time.sleep(1)
 
 # skip_ads = WebDriverWait(driver, 20*60).until(EC.element_to_be_clickable((By.CLASS_NAME, "ytp-skip-ad-button")))
 # skip_ads.click()
