@@ -15,7 +15,9 @@ def setBandwidth(Kbps):
         driver.set_network_conditions(offline=False,latency=0,download_throughput=bandwidth, upload_throughput=bandwidth)
     else:
         bandwidth = Kbps / 1000
-        os.system(f"/usr/sbin/tc qdisc add dev wlp1s0 root tbf rate {bandwidth}")
+        burst = 99999999999999999
+        max_latency = 99999999999999999
+        os.system(f"/usr/sbin/tc qdisc add dev wlp1s0 root tbf rate {bandwidth} burst {burst} latency {max_latency}")
 
 
 
