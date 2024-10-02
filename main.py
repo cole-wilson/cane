@@ -17,7 +17,7 @@ def setBandwidth(Kbps):
         bandwidth = Kbps
         burst = 1000
         max_latency = 1000
-        os.system(f"/usr/sbin/tc qdisc add dev wlp1s0 root tbf rate {bandwidth}kbit burst {burst} latency {max_latency}ms")
+        os.system(f"sudo /usr/sbin/tc qdisc add dev wlp1s0 root tbf rate {bandwidth}kbit burst {burst} latency {max_latency}ms")
 
 
 
