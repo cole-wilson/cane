@@ -15,9 +15,10 @@ def setBandwidth(Kbps):
         driver.set_network_conditions(offline=False,latency=0,download_throughput=bandwidth, upload_throughput=bandwidth)
     else:
         bandwidth = Kbps
-        burst = 1000
-        max_latency = 1000
-        os.system(f"sudo /usr/sbin/tc qdisc add dev wlp1s0 root tbf rate {bandwidth}kbit burst {burst} latency {max_latency}ms")
+        # burst = 1000
+        # max_latency = 1000
+        os.system(f"sudo wondershaper eth0 {bandwidth} {bandwidth}")
+        # os.system(f"sudo /usr/sbin/tc qdisc add dev wlp1s0 root tbf rate {bandwidth}kbit burst {burst} latency {max_latency}ms")
 
 
 
@@ -52,7 +53,7 @@ start = time.time()
 try:
     while True:
         seconds = time.time() - start
-        setBandwidth(1000)
+        setBandwidth(1842)
 
         output = driver.execute_script(funcjs)
         # print(output)
