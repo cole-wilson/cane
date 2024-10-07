@@ -48,7 +48,7 @@ driver.execute_script("document.getElementsByTagName('video')[0].play()")
 print('play')
 time.sleep(1)
 
-# skip_ads = WebDriverWait(driver, 20*60).until(EC.element_to_be_clickable((By.CLASS_NAME, "ytp-skip-ad-button")))
+# skip_ads = webdriver.WebDriverWait(driver, 20*60).until(EC.element_to_be_clickable((By.CLASS_NAME, "ytp-skip-ad-button")))
 # skip_ads.click()
 
 start = time.time()
@@ -60,7 +60,7 @@ try:
         time.sleep(0.1)
         output = driver.execute_script(funcjs)
         output["bandwidth"] = bw
-        # print(output)
+        print(output)
         data.append(output)
 except:
     ...
