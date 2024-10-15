@@ -11,6 +11,7 @@ import math
 import csv
 
 DT = 0.1 # s
+INTERFACE = "wlp1s0"
 
 def write_data():
     if not os.path.isdir("data"):
@@ -33,7 +34,8 @@ def setBandwidth(Kbps):
         bandwidth = Kbps
         # burst = 1000
         # max_latency = 1000
-        os.system(f"sudo wondershaper eth0 {bandwidth} {bandwidth}")
+        os.system(f"sudo wondershaper -a {INTERFACE} -d {bandwidth}")
+        os.system(f"sudo wondershaper -c -a {INTERFACE}")
         # os.system(f"sudo /usr/sbin/tc qdisc add dev wlp1s0 root tbf rate {bandwidth}kbit burst {burst} latency {max_latency}ms")
     return Kbps
 
