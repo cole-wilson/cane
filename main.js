@@ -8,8 +8,10 @@ let output = {};
 if (v.paused) v.play();
 
 output.network_status = v.networkState;
-output.resolution = [v.videoWidth, v.videoHeight];
-output.player_size = [parseInt(getComputedStyle(v).width.replace("px","")), parseInt(getComputedStyle(v).height.replace("px",""))]
+output.resolution_w = v.videoWidth;
+output.resolution_h = v.videoHeight;
+output.player_size_w = parseInt(getComputedStyle(v).width.replace("px",""));
+output.player_size_h = parseInt(getComputedStyle(v).height.replace("px",""))
 output.remaining_buffer = -1;
 output.n_buffers = v.buffered.length;
 output.paused = v.paused;

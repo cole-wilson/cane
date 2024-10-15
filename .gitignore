@@ -1,1 +1,6 @@
 data.json
+data/*.csv
+data
+data/
+*.csv
+.DS_Store
