@@ -82,7 +82,7 @@ def run_for_url(url, skip_yt_ads=False):
             output = driver.execute_script(funcjs)
             output["bandwidth"] = bw
             output["t"] = seconds
-            print(seconds, end="                                \r")
+            print(seconds, bw, end="                                                         \r")
             data.append(output)
             if output["percent"] is not None and output["percent"] > 0.999:
                 print("ENDING VIDEO, STARTING NEXT @@@@@@@@@@@@@@@@@@@@@@@@@")
