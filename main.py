@@ -13,10 +13,10 @@ import math
 import csv
 
 DT = 0.1 # s
-INTERFACE = "wlo0"
+INTERFACE = "wlo1"
 
 options = Options()
-options.add_argument('--no-sandbox')
+# options.add_argument('--no-sandbox')
 
 def write_data():
     if not os.path.isdir("data"):
