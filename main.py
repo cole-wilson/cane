@@ -94,9 +94,14 @@ video_urls = [
     "https://www.youtube.com/watch?v=KLuTLF3x9sA",
     "https://www.youtube.com/watch?v=-QXrbXYE4jE",
     "https://www.youtube.com/watch?v=aellLMtz3UI",
+    "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "https://www.youtube.com/watch?v=ciSNHrKrkeQ",
+    "https://www.youtube.com/watch?v=7H7cTSml5zk",
+    "https://www.youtube.com/watch?v=LDU_Txk06tM"
     "https://www.youtube.com/watch?v=QCL7VXuO35g",
     "https://www.youtube.com/watch?v=QU-L6_RnaPA",
     "https://www.youtube.com/watch?v=FslCeCp1GqM"
+    "https://www.youtube.com/watch?v=yajJ_QVIKwU"
 ]
 
 for video in video_urls:
