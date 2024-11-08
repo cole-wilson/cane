@@ -3,6 +3,8 @@ import selenium
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+
 import time
 import datetime
 import platform
@@ -11,7 +13,10 @@ import math
 import csv
 
 DT = 0.1 # s
-INTERFACE = "wlp1s0"
+INTERFACE = "wlo0"
+
+options = Options()
+options.add_argument('--no-sandbox')
 
 def write_data():
     if not os.path.isdir("data"):
@@ -46,7 +51,7 @@ def bandwidth_from_time(t):
 
 with open("main.js", "r") as f:
     funcjs = f.read()
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(chrome_options=options)
 
 def run_for_url(url, skip_yt_ads=False):
     global data
