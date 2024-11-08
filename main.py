@@ -51,7 +51,7 @@ def bandwidth_from_time(t):
 
 with open("main.js", "r") as f:
     funcjs = f.read()
-driver = webdriver.Chrome(chrome_options=options)
+driver = webdriver.Chrome(options=options)
 
 def run_for_url(url, skip_yt_ads=False):
     global data
