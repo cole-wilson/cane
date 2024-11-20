@@ -33,15 +33,15 @@ def write_data():
 def setBandwidth(Kbps):
     op_sys = platform.system()
     bandwidth = Kbps / 8 * 1024
-    # driver.set_network_conditions(offline=False,latency=0,download_throughput=bandwidth, upload_throughput=bandwidth)
-    # if op_sys == "Darwin":
-    # else:
-        # bandwidth = Kbps
-        # burst = 1000
-        # max_latency = 1000
-        # os.system(f"sudo wondershaper clear {INTERFACE}")
-        # os.system(f"sudo wondershaper {INTERFACE} {bandwidth} {bandwidth}")
-        # os.system(f"sudo /usr/sbin/tc qdisc add dev wlp1s0 root tbf rate {bandwidth}kbit burst {burst} latency {max_latency}ms")
+    if op_sys == "Darwin":
+        driver.set_network_conditions(offline=False,latency=0,download_throughput=bandwidth, upload_throughput=bandwidth)
+    else:
+        bandwidth = Kbps
+        burst = 1000
+        max_latency = 1000
+        os.system(f"sudo wondershaper clear {INTERFACE}")
+        os.system(f"sudo wondershaper {INTERFACE} {bandwidth} {bandwidth}")
+        os.system(f"sudo /usr/sbin/tc qdisc add dev wlp1s0 root tbf rate {bandwidth}kbit burst {burst} latency {max_latency}ms")
     return Kbps
 
 def bandwidth_from_time(t):
