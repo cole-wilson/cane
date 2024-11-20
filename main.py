@@ -33,7 +33,7 @@ def write_data():
 def setBandwidth(Kbps):
     op_sys = platform.system()
     bandwidth = Kbps / 8 * 1024
-    driver.set_network_conditions(offline=False,latency=0,download_throughput=bandwidth, upload_throughput=bandwidth)
+    # driver.set_network_conditions(offline=False,latency=0,download_throughput=bandwidth, upload_throughput=bandwidth)
     # if op_sys == "Darwin":
     # else:
         # bandwidth = Kbps
