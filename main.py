@@ -17,6 +17,7 @@ INTERFACE = "enp0s3"
 
 options = Options()
 # options.add_argument('--no-sandbox')
+options.add_argument("--remote-debugging-port=9222")
 
 def write_data():
     if not os.path.isdir("data"):
