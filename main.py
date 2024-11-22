@@ -13,7 +13,7 @@ import math
 import csv
 
 DT = 0.1 # s
-INTERFACE = "wlo1"
+INTERFACE = "enp0s3"
 
 options = Options()
 # options.add_argument('--no-sandbox')
