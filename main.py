@@ -40,8 +40,8 @@ def setBandwidth(Kbps):
         bandwidth = Kbps
         burst = 1000
         max_latency = 1000
-        os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c")
-        os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {bandwidth}")
+        os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c 2> err.log")
+        os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {bandwidth} 2> err.log")
         # os.system(f"sudo /usr/sbin/tc qdisc add dev {INTER} root tbf rate {bandwidth}kbit burst {burst} latency {max_latency}ms")
     return Kbps
 
