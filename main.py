@@ -12,7 +12,7 @@ import os
 import math
 import csv
 
-DT = 0.1 # s
+DT = 0.2 # s
 INTERFACE = "enp0s3"
 
 options = Options()
@@ -36,11 +36,13 @@ def setBandwidth(Kbps):
     bandwidth = Kbps / 8 * 1024
     if op_sys == "Darwin":
         driver.set_network_conditions(offline=False,latency=0,download_throughput=bandwidth, upload_throughput=bandwidth)
+        time.sleep(DT)
     else:
         bandwidth = Kbps
         burst = 1000
         max_latency = 1000
         os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c 2> err.log")
+        time.sleep(DT)
         os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {bandwidth} 2> err.log")
         # os.system(f"sudo /usr/sbin/tc qdisc add dev {INTER} root tbf rate {bandwidth}kbit burst {burst} latency {max_latency}ms")
     return Kbps
@@ -79,7 +81,6 @@ def run_for_url(url, skip_yt_ads=False):
         while True:
             seconds = time.time() - start
             bw = setBandwidth(bandwidth_from_time(seconds))
-            time.sleep(DT)
             output = driver.execute_script(funcjs)
             output["bandwidth"] = bw
             output["t"] = seconds
