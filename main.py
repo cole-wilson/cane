@@ -47,7 +47,7 @@ def setBandwidth(Kbps):
 
 def bandwidth_from_time(t):
     # https://www.desmos.com/calculator/byou3zc63w
-    sinfunc = sum([0.15 * math.sin((1 / (i+1)) * t) for i in range(20)])
+    sinfunc = sum([0.15 * math.sin((0.5 / (i+1)) * t) for i in range(20)])
     return 40000 + (30000*sinfunc)
 
 with open("main.js", "r") as f:
