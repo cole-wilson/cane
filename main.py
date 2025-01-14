@@ -41,10 +41,9 @@ def setBandwidth(Kbps):
         bandwidth = Kbps
         burst = 1000
         max_latency = 1000
-        os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c 2> err.log")
-        time.sleep(DT)
-        os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {bandwidth} 2> err.log")
-        # os.system(f"sudo /usr/sbin/tc qdisc add dev {INTER} root tbf rate {bandwidth}kbit burst {burst} latency {max_latency}ms")
+        # os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c 2> err.log")
+        # os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {bandwidth} 2> err.log")
+        os.system(f"sudo /usr/sbin/tc qdisc add dev {INTER} root tbf rate {bandwidth}kbit burst {burst} latency {max_latency}ms")
     return Kbps
 
 def bandwidth_from_time(t):
@@ -68,25 +67,27 @@ def run_for_url(url, skip_yt_ads=False):
     driver.execute_script("document.getElementsByTagName('video')[0].play()")
     time.sleep(1)
 
+    if skip_yt_ads:
+        try:
+            skip_ads = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, "ytp-skip-ad-button")))
+            skip_ads.click()
+        except selenium.common.exceptions.TimeoutException:
+            pass
+
     try:
-        if skip_yt_ads:
-            try:
-                skip_ads = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, "ytp-skip-ad-button")))
-                skip_ads.click()
-            except selenium.common.exceptions.TimeoutException:
-                pass
-
-
         start = time.time()
         while True:
             seconds = time.time() - start
             bw = setBandwidth(bandwidth_from_time(seconds))
+
+            time.sleep(DT)
+
             output = driver.execute_script(funcjs)
             output["bandwidth"] = bw
             output["t"] = seconds
             print(seconds, bw, end="                                                         \r")
             data.append(output)
-            if output["percent"] is not None and output["percent"] > 0.999:
+            if output["percent"] is not None and output["percent"] > 0.999 and output["current_time"] > 120:
                 print("ENDING VIDEO, STARTING NEXT @@@@@@@@@@@@@@@@@@@@@@@@@")
                 return;
 
