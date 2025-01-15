@@ -1,2 +1,2 @@
-sudo tc qdisc add dev enp0s3 root handle 1:0 netem delay 100ms
-sudo tc qdisc add dev enp0s3 parent 1:1 handle 10: tbf rate 256kbit buffer 1600 limit 3000
+sudo tc qdisc add dev enp0s3 handle ffff: ingress
+sudo tc filter add dev enp0s3 protocol ip parent ffff: prio 50 u32 match ip src 0.0.0.0/0 police rate 128kbit burst 15k drop flowid :1
