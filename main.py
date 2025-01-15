@@ -15,7 +15,7 @@ import csv
 DT = 0.2 # s
 INTERFACE = "enp0s3"
 
-os.system(f"tc qdisc add dev {INTERFACE} handle ffff: ingress")
+os.system(f"sudo tc qdisc add dev {INTERFACE} handle ffff: ingress")
 
 options = Options()
 # options.add_argument('--no-sandbox')
@@ -46,8 +46,8 @@ def setBandwidth(Kbps):
         # os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c 2> err.log")
         # os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {bandwidth} 2> err.log")
         # os.system(f"sudo /usr/sbin/tc qdisc add dev {INTER} root tbf rate {bandwidth}kbit burst {burst} latency {max_latency}ms")
-        os.system(f"tc filter del dev {INTERFACE} parent ffff: prio 50")
-        os.system(f"tc filter add dev {INTERFACE} protocol ip parent ffff: prio 50 u32 match ip src 0.0.0.0/0 police rate {bandwidth}kbit burst 99k drop flowid :1 ")
+        os.system(f"sudo tc filter del dev {INTERFACE} parent ffff: prio 50")
+        os.system(f"sudo tc filter add dev {INTERFACE} protocol ip parent ffff: prio 50 u32 match ip src 0.0.0.0/0 police rate {bandwidth}kbit burst 99k drop flowid :1 ")
     return Kbps
 
 def bandwidth_from_time(t):
