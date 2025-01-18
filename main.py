@@ -85,7 +85,7 @@ def run_for_url(url, skip_yt_ads=False):
             seconds = time.time() - start
 
 
-            if round(seconds) % STEP) == 0:
+            if round(seconds) % STEP == 0:
                 bw = bandwidth_from_time(seconds)
                 setBandwidth(bw)
                 print(seconds, 'set bandwidth to', bw/1000, "mbps")
