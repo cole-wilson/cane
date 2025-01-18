@@ -51,7 +51,7 @@ def bandwidth_from_time(t):
     t = (t / 500) + 100
     print(t)
     # https://www.desmos.com/calculator/byou3zc63w
-    sinfunc = sum([0.15 * math.sin((0.5 / i) * t) for i in range(20)])
+    sinfunc = sum([0.15 * math.sin((0.5 / i) * t) for i in range(1, 20+1)])
     return 50000 + (60000*sinfunc)
 
 with open("main.js", "r") as f:
