@@ -12,10 +12,13 @@ import os
 import math
 import csv
 
+
+STEP = 6 # s
+
 DT = 0.2 # s
 INTERFACE = "enp0s3"
 
-os.system(f"sudo tc qdisc add dev {INTERFACE} handle ffff: ingress")
+# os.system(f"sudo tc qdisc add dev {INTERFACE} handle ffff: ingress")
 
 options = Options()
 # options.add_argument('--no-sandbox')
@@ -35,25 +38,18 @@ def write_data():
 
 def setBandwidth(Kbps):
     op_sys = platform.system()
-    bandwidth = Kbps / 8 * 1024
     if op_sys == "Darwin":
         driver.set_network_conditions(offline=False,latency=0,download_throughput=bandwidth, upload_throughput=bandwidth)
-        time.sleep(DT)
     else:
         bandwidth = Kbps
-        burst = 1000
-        max_latency = 1000
-        # os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c 2> err.log")
-        # os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {bandwidth} 2> err.log")
-        # os.system(f"sudo /usr/sbin/tc qdisc add dev {INTER} root tbf rate {bandwidth}kbit burst {burst} latency {max_latency}ms")
-        os.system(f"sudo tc filter del dev {INTERFACE} parent ffff: prio 50")
-        os.system(f"sudo tc filter add dev {INTERFACE} protocol ip parent ffff: prio 50 u32 match ip src 0.0.0.0/0 police rate {bandwidth}kbit burst 99k drop flowid :1 ")
-    return Kbps
+        os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c 2> err.log")
+        os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {Kbps} 2> err.log")
 
 def bandwidth_from_time(t):
+    t = (t / 500) + 100
     # https://www.desmos.com/calculator/byou3zc63w
-    sinfunc = sum([0.15 * math.sin((0.5 / (i+1)) * t) for i in range(20)])
-    return 40000 + (30000*sinfunc)
+    sinfunc = sum([0.15 * math.sin((0.5 / i) * t) for i in range(20)])
+    return 50000 + (60000*sinfunc)
 
 with open("main.js", "r") as f:
     funcjs = f.read()
@@ -82,7 +78,12 @@ def run_for_url(url, skip_yt_ads=False):
         start = time.time()
         while True:
             seconds = time.time() - start
-            bw = setBandwidth(bandwidth_from_time(seconds))
+
+            bw = bandwidth_from_time(seconds)
+
+            if (seconds % STEP) == 0:
+                setBandwidth(bw)
+                print(seconds, 'set bandwidth to', bw/1000, "mbps")
 
             time.sleep(DT)
 
