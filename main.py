@@ -56,8 +56,13 @@ with open("main.js", "r") as f:
     funcjs = f.read()
 driver = webdriver.Chrome(options=options)
 
+start = time.time()
+bw = 0
+
 def run_for_url(url, skip_yt_ads=False):
     global data
+    global bw
+
     driver.get(url)
     driver.implicitly_wait(0.5)
     time.sleep(2)
@@ -76,12 +81,11 @@ def run_for_url(url, skip_yt_ads=False):
             pass
 
     try:
-        start = time.time()
         while True:
             seconds = time.time() - start
 
 
-            if (seconds % STEP) == 0 and seconds > 0:
+            if (seconds % STEP) == 0:
                 bw = bandwidth_from_time(seconds)
                 setBandwidth(bw)
                 print(seconds, 'set bandwidth to', bw/1000, "mbps")
