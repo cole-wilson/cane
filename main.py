@@ -13,7 +13,7 @@ import math
 import csv
 
 
-STEP = 6 # s
+STEP = 90 # s
 
 DT = 0.2 # s
 INTERFACE = "enp0s3"
