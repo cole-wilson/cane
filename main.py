@@ -46,10 +46,10 @@ def setBandwidth(Kbps):
         os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {Kbps} 2> err.log")
 
 def bandwidth_from_time(t):
-    print("\n"*10)
-    print(t)
+    # print("\n"*10)
+    # print(t)
     t = (t / 500) + 100
-    print(t)
+    # print(t)
     # https://www.desmos.com/calculator/byou3zc63w
     sinfunc = sum([0.15 * math.sin((0.5 / i) * t) for i in range(1, 20+1)])
     return 50000 + (60000*sinfunc)
@@ -59,11 +59,13 @@ with open("main.js", "r") as f:
 driver = webdriver.Chrome(options=options)
 
 start = time.time()
+last_s = 0
 bw = 0
 
 def run_for_url(url, skip_yt_ads=False):
     global data
     global bw
+    global last_s
 
     driver.get(url)
     driver.implicitly_wait(0.5)
@@ -87,8 +89,9 @@ def run_for_url(url, skip_yt_ads=False):
             seconds = time.time() - start
 
 
-            if round(seconds) % STEP == 0:
+            if round(seconds) % STEP == 0 and (seconds - last_s) > 1:
                 bw = bandwidth_from_time(seconds)
+                last_s = seconds
                 setBandwidth(bw)
                 print(seconds, 'set bandwidth to', bw/1000, "mbps")
 
