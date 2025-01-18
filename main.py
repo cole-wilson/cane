@@ -46,8 +46,10 @@ def setBandwidth(Kbps):
         os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {Kbps} 2> err.log")
 
 def bandwidth_from_time(t):
+    print("\n"*10)
     print(t)
     t = (t / 500) + 100
+    print(t)
     # https://www.desmos.com/calculator/byou3zc63w
     sinfunc = sum([0.15 * math.sin((0.5 / i) * t) for i in range(20)])
     return 50000 + (60000*sinfunc)
