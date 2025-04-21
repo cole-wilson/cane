@@ -45,14 +45,17 @@ def setBandwidth(Kbps):
         os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c 2> err.log")
         os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {Kbps} 2> err.log")
 
-def bandwidth_from_time(t):
-    # print("\n"*10)
-    # print(t)
-    t = (t / 500) + 100
-    # print(t)
-    # https://www.desmos.com/calculator/byou3zc63w
-    sinfunc = sum([0.15 * math.sin((0.5 / i) * t) for i in range(1, 20+1)])
-    return 50000 + (60000*sinfunc)
+# def bandwidth_from_time(t):
+#     # print("\n"*10)
+#     # print(t)
+#     t = (t / 500) + 100
+#     # print(t)
+#     # https://www.desmos.com/calculator/byou3zc63w
+#     sinfunc = sum([0.15 * math.sin((0.5 / i) * t) for i in range(1, 20+1)])
+#     return 50000 + (60000*sinfunc)
+
+def bandwidth_from_time(x):
+    return (80000 * math.floor((x/1000) % 2)) + 20000
 
 with open("main.js", "r") as f:
     funcjs = f.read()
@@ -113,20 +116,20 @@ def run_for_url(url, skip_yt_ads=False):
 
 data = []
 
-video_urls = [
-    "https://www.youtube.com/watch?v=KLuTLF3x9sA",
-    "https://www.youtube.com/watch?v=-QXrbXYE4jE",
-    "https://www.youtube.com/watch?v=aellLMtz3UI",
-    "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    "https://www.youtube.com/watch?v=ciSNHrKrkeQ",
-    "https://www.youtube.com/watch?v=7H7cTSml5zk",
-    "https://www.youtube.com/watch?v=LDU_Txk06tM"
-    "https://www.youtube.com/watch?v=QCL7VXuO35g",
-    "https://www.youtube.com/watch?v=QU-L6_RnaPA",
-    "https://www.youtube.com/watch?v=FslCeCp1GqM"
-    "https://www.youtube.com/watch?v=yajJ_QVIKwU"
-]
-
+# video_urls = [
+#     "https://www.youtube.com/watch?v=KLuTLF3x9sA",
+#     "https://www.youtube.com/watch?v=-QXrbXYE4jE",
+#     "https://www.youtube.com/watch?v=aellLMtz3UI",
+#     "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+#     "https://www.youtube.com/watch?v=ciSNHrKrkeQ",
+#     "https://www.youtube.com/watch?v=7H7cTSml5zk",
+#     "https://www.youtube.com/watch?v=LDU_Txk06tM"
+#     "https://www.youtube.com/watch?v=QCL7VXuO35g",
+#     "https://www.youtube.com/watch?v=QU-L6_RnaPA",
+#     "https://www.youtube.com/watch?v=FslCeCp1GqM"
+#     "https://www.youtube.com/watch?v=yajJ_QVIKwU"
+# ]
+video_urls = ["https://speedtest.net"]
 for video in video_urls:
     run_for_url(video, skip_yt_ads=True)
 

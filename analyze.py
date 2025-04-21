@@ -1,27 +1,42 @@
-import json
 import matplotlib.pyplot as plt
 import numpy as np
-
-with open("data.json", "r") as f:
-    data = json.load(f)
+import sys
 
 xs = []
-series = {}
-for index, d in enumerate(data):
-    xs.append(index)
-    for k, v in d.items():
-        if not isinstance(v, str) and v is not None:
-            if isinstance(v, list):
-                v = v[-1]
-            if k not in series:
-                series[k] = []
-            series[k].append(v)
+bws = []
+ress = []
 
-print(series)
+old = 0
 
-lines = []
-for k in ['current_time']:
-    v = series[k]
-    lines.append(plt.plot(xs, v, label=k))
-plt.legend(loc="upper left")
+with open(sys.argv[1], "r") as f:
+    header_line = f.readline().strip().split(",")
+    print(header_line)
+    T_COL = header_line.index("t")
+    BW_COL = header_line.index("bandwidth")
+    RES_COL = header_line.index("resolution_h")
+
+    c = 0
+    while True:
+        try:
+            line = f.readline().strip().split(",")
+            # print(line)
+            bws.append(float(line[BW_COL]))
+            r = float(line[RES_COL])
+            if r == 0: r = old
+            old = r
+            ress.append(r)
+            xs.append(c)
+            c += 1
+        except EOFError:
+            break
+        except IndexError:
+            # print("index error at", c)
+            break
+
+fig, ax1 = plt.subplots()
+ax1.plot(xs, bws, label="bandwidth")
+ax2 = ax1.twinx()
+ax2.plot(xs, ress, label="resolution", color="red")
+ax2.legend(loc="upper right")
+ax1.legend(loc="upper left")
 plt.show()
