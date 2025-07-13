@@ -97,22 +97,22 @@ def run_for_url(url, skip_yt_ads=False):
             seconds = time.time() - start
 
 
-            if (round(seconds) % STEP == 0 and (seconds - last_s) > 1):
-                bw = bandwidth_from_time(seconds)
-                last_s = seconds
-                setBandwidth(bw)
-                print(seconds, 'set bandwidth to', bw/1000, "mbps")
+            # if (round(seconds) % STEP == 0 and (seconds - last_s) > 1):
+            #     bw = bandwidth_from_time(seconds)
+            #     last_s = seconds
+            #     setBandwidth(bw)
+            #     print(seconds, 'set bandwidth to', bw/1000, "mbps")
 
-            time.sleep(DT)
+            # time.sleep(DT)
 
-            output = driver.execute_script(funcjs)
-            output["bandwidth"] = bw
-            output["t"] = seconds
-            print(seconds, bw, end="                                                         \r")
-            data.append(output)
-            if output["percent"] is not None and output["percent"] > 0.999 and output["current_time"] > 120:
-                print("ENDING VIDEO, STARTING NEXT @@@@@@@@@@@@@@@@@@@@@@@@@")
-                return;
+            # output = driver.execute_script(funcjs)
+            # output["bandwidth"] = bw
+            # output["t"] = seconds
+            # print(seconds, bw, end="                                                         \r")
+            # data.append(output)
+            # if output["percent"] is not None and output["percent"] > 0.999 and output["current_time"] > 120:
+            #     print("ENDING VIDEO, STARTING NEXT @@@@@@@@@@@@@@@@@@@@@@@@@")
+            #     return;
 
     except Exception as err:
         write_data()
