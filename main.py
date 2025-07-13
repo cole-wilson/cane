@@ -56,9 +56,9 @@ def setBandwidth(Kbps):
 
 def bandwidth_from_time(x):
     if (x % (60 * 10)) < (60 * 5):
-        return 100_000
+        return 1_000_000
     else:
-        return 5_000
+        return 50_000
     # return (80000 * math.floor((x/1000) % 2)) + 20000
 
 with open("main.js", "r") as f:
@@ -90,6 +90,7 @@ def run_for_url(url, skip_yt_ads=False):
             skip_ads.click()
         except selenium.common.exceptions.TimeoutException:
             pass
+    start = time.time()
 
     try:
         while True:
