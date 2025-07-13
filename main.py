@@ -38,10 +38,10 @@ def write_data():
 
 def setBandwidth(Kbps):
     op_sys = platform.system()
+    bandwidth = Kbps
     if op_sys == "Darwin":
         driver.set_network_conditions(offline=False,latency=0,download_throughput=bandwidth, upload_throughput=bandwidth)
     else:
-        bandwidth = Kbps
         os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c 2> err.log")
         os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {Kbps} 2> err.log")
 
@@ -116,20 +116,20 @@ def run_for_url(url, skip_yt_ads=False):
 
 data = []
 
-# video_urls = [
-#     "https://www.youtube.com/watch?v=KLuTLF3x9sA",
-#     "https://www.youtube.com/watch?v=-QXrbXYE4jE",
-#     "https://www.youtube.com/watch?v=aellLMtz3UI",
-#     "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-#     "https://www.youtube.com/watch?v=ciSNHrKrkeQ",
-#     "https://www.youtube.com/watch?v=7H7cTSml5zk",
-#     "https://www.youtube.com/watch?v=LDU_Txk06tM"
-#     "https://www.youtube.com/watch?v=QCL7VXuO35g",
-#     "https://www.youtube.com/watch?v=QU-L6_RnaPA",
-#     "https://www.youtube.com/watch?v=FslCeCp1GqM"
-#     "https://www.youtube.com/watch?v=yajJ_QVIKwU"
-# ]
-video_urls = ["https://speedtest.net"]
+video_urls = [
+    "https://www.youtube.com/watch?v=KLuTLF3x9sA",
+    "https://www.youtube.com/watch?v=-QXrbXYE4jE",
+    "https://www.youtube.com/watch?v=aellLMtz3UI",
+    "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "https://www.youtube.com/watch?v=ciSNHrKrkeQ",
+    "https://www.youtube.com/watch?v=7H7cTSml5zk",
+    "https://www.youtube.com/watch?v=LDU_Txk06tM"
+    "https://www.youtube.com/watch?v=QCL7VXuO35g",
+    "https://www.youtube.com/watch?v=QU-L6_RnaPA",
+    "https://www.youtube.com/watch?v=FslCeCp1GqM"
+    "https://www.youtube.com/watch?v=yajJ_QVIKwU"
+]
+# video_urls = ["https://speedtest.net"]
 for video in video_urls:
     run_for_url(video, skip_yt_ads=True)
 
