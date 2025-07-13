@@ -55,7 +55,7 @@ def setBandwidth(Kbps):
 #     return 50000 + (60000*sinfunc)
 
 def bandwidth_from_time(x):
-    if (x % (60 * 10)) > 5:
+    if (x % (60 * 10)) < (60 * 5):
         return 100_000
     else:
         return 5_000
