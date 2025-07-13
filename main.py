@@ -55,7 +55,11 @@ def setBandwidth(Kbps):
 #     return 50000 + (60000*sinfunc)
 
 def bandwidth_from_time(x):
-    return (80000 * math.floor((x/1000) % 2)) + 20000
+    if (x % (60 * 10)) > 5:
+        return 100_000
+    else:
+        return 5_000
+    # return (80000 * math.floor((x/1000) % 2)) + 20000
 
 with open("main.js", "r") as f:
     funcjs = f.read()
