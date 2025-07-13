@@ -97,7 +97,7 @@ def run_for_url(url, skip_yt_ads=False):
             seconds = time.time() - start
 
 
-            if seconds < 2 or (round(seconds) % STEP == 0 and (seconds - last_s) > 1):
+            if (round(seconds) % STEP == 0 and (seconds - last_s) > 1):
                 bw = bandwidth_from_time(seconds)
                 last_s = seconds
                 setBandwidth(bw)
