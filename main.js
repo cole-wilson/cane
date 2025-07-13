@@ -1,3 +1,4 @@
+console.log("run")
 let v = document.getElementsByTagName("video")[0];
 
 if (!v)
