@@ -1,10 +1,9 @@
-console.log("run")
 let v = document.getElementsByTagName("video")[0];
 
 if (!v)
 	return {}
 
-let output = {};
+output = {};
 
 if (v.paused) v.play();
 
@@ -32,4 +31,9 @@ output.dropped_frames = qual.droppedVideoFrames;
 output.total_frames = qual.totalVideoFrames;
 output.corrupted_frames = qual.corruptedVideoFrames;
 
+sfn = Object.fromEntries(Array(...document.querySelectorAll(".ytp-sfn-content > div")).map(i=>["yt_sfn_"+i.childNodes[0].innerText.toLowerCase().replaceAll("/ ", "").replaceAll(" ", "_"), i.childNodes[1].innerText.trim().replace(" Kbps","")]))
+
+output = {...output, ...sfn};
+
+// console.log(v.currentSrc)
 return output;

@@ -2,6 +2,7 @@ from selenium import webdriver
 import selenium
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
@@ -13,7 +14,7 @@ import math
 import csv
 
 
-STEP = 90 # s
+STEP = 10 # s
 
 DT = 0.2 # s
 INTERFACE = "enp0s3"
@@ -23,6 +24,7 @@ INTERFACE = "enp0s3"
 options = Options()
 # options.add_argument('--no-sandbox')
 options.add_argument("--remote-debugging-port=9222")
+options.add_argument('--disable-blink-features=AutomationControlled')
 
 def write_data():
     if not os.path.isdir("data"):
@@ -40,10 +42,11 @@ def setBandwidth(Kbps):
     op_sys = platform.system()
     bandwidth = Kbps
     if op_sys == "Darwin":
+        ...
         driver.set_network_conditions(offline=False,latency=0,download_throughput=bandwidth, upload_throughput=bandwidth)
     else:
         os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c  2> err.log") #
-        # os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {Kbps} 2> err.log")
+        os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {Kbps} 2> err.log")
 
 # def bandwidth_from_time(t):
 #     # print("\n"*10)
@@ -55,7 +58,8 @@ def setBandwidth(Kbps):
 #     return 50000 + (60000*sinfunc)
 
 def bandwidth_from_time(x):
-    if (x % (60 * 10)) < (60 * 5):
+    print(x)
+    if (x % 20) < 10:
         return 1_000_000
     else:
         return 50_000
@@ -68,6 +72,23 @@ driver = webdriver.Chrome(options=options)
 start = time.time()
 last_s = 0
 bw = 0
+
+# https://github.com/sharat910/selenium-youtube/blob/master/youtube.py
+def stats():
+    movie_player = driver.find_elements(By.ID, 'movie_player')[0]
+    hover = ActionChains(driver).move_to_element(movie_player)
+    hover.perform()
+    ActionChains(driver).context_click(movie_player).perform()
+    options = driver.find_elements(By.CLASS_NAME, 'ytp-menuitem')
+    for option in options:
+        option_child = option.find_elements(By.CLASS_NAME, 'ytp-menuitem-label')[0]
+        if option_child.text == 'Stats for nerds':
+            option_child.click()
+            print("Enabled stats collection.")
+            return True
+    return False
+# end ================================================================
+
 
 def run_for_url(url, skip_yt_ads=False):
     global data
@@ -92,6 +113,8 @@ def run_for_url(url, skip_yt_ads=False):
             pass
     start = time.time()
 
+    stats()
+
     try:
         while True:
             seconds = time.time() - start
@@ -114,7 +137,8 @@ def run_for_url(url, skip_yt_ads=False):
                 print("ENDING VIDEO, STARTING NEXT @@@@@@@@@@@@@@@@@@@@@@@@@")
                 return;
 
-    except Exception as err:
+    except (Exception, KeyboardInterrupt) as err:
+        # input(">>>>>>> ")
         write_data()
         raise err
 

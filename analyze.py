@@ -13,7 +13,7 @@ with open(sys.argv[1], "r") as f:
     print(header_line)
     T_COL = header_line.index("t")
     BW_COL = header_line.index("bandwidth")
-    RES_COL = header_line.index("resolution_h")
+    RES_COL = header_line.index("yt_sfn_connection_speed")
 
     c = 0
     while True:
@@ -36,7 +36,7 @@ with open(sys.argv[1], "r") as f:
 fig, ax1 = plt.subplots()
 ax1.plot(xs, bws, label="bandwidth")
 ax2 = ax1.twinx()
-ax2.plot(xs, ress, label="resolution", color="red")
+ax2.plot(xs, ress, label="yt connection speed", color="red")
 ax2.legend(loc="upper right")
 ax1.legend(loc="upper left")
 plt.show()
