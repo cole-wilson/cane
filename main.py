@@ -41,12 +41,12 @@ def write_data():
 def setBandwidth(Kbps):
     op_sys = platform.system()
     bandwidth = Kbps
-    if op_sys == "Darwin":
-        ...
-        driver.set_network_conditions(offline=False,latency=0,download_throughput=bandwidth, upload_throughput=bandwidth)
-    else:
-        os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c  2> err.log") #
-        os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {Kbps} 2> err.log")
+    # if op_sys == "Darwin":
+        # ...
+    driver.set_network_conditions(offline=False,latency=0,download_throughput=bandwidth, upload_throughput=bandwidth)
+    # else:
+        # os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c  2> err.log") #
+        # os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {Kbps} 2> err.log")
 
 # def bandwidth_from_time(t):
 #     # print("\n"*10)
