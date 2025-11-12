@@ -60,9 +60,9 @@ def setBandwidth(Kbps):
 def bandwidth_from_time(x):
     print(x)
     if (x % 20) < 10:
-        return 1_000_000
-    else:
         return 50_000
+    else:
+        return 500
     # return (80000 * math.floor((x/1000) % 2)) + 20000
 
 with open("main.js", "r") as f:
