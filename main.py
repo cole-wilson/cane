@@ -17,7 +17,7 @@ import csv
 STEP = 10 # s
 
 DT = 0.2 # s
-INTERFACE = "enp0s3"
+INTERFACE = "wlp1s0"
 
 # os.system(f"sudo tc qdisc add dev {INTERFACE} handle ffff: ingress")
 
@@ -59,7 +59,7 @@ def setBandwidth(Kbps):
 
 def bandwidth_from_time(x):
     print(x)
-    if (x % 20) < 10:
+    if (x % 180) < 90:
         return 50_000
     else:
         return 500
