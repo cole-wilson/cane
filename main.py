@@ -43,27 +43,28 @@ def setBandwidth(Kbps):
     bandwidth = Kbps
     # if op_sys == "Darwin":
         # ...
-    driver.set_network_conditions(offline=False,latency=0,download_throughput=bandwidth, upload_throughput=bandwidth)
+    driver.set_network_conditions(offline=False,latency=0,throughput=bandwidth*1024)
     # else:
         # os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c  2> err.log") #
         # os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {Kbps} 2> err.log")
 
-# def bandwidth_from_time(t):
-#     # print("\n"*10)
-#     # print(t)
-#     t = (t / 500) + 100
-#     # print(t)
-#     # https://www.desmos.com/calculator/byou3zc63w
-#     sinfunc = sum([0.15 * math.sin((0.5 / i) * t) for i in range(1, 20+1)])
-#     return 50000 + (60000*sinfunc)
+def bandwidth_from_time(t):
+    # print("\n"*10)
+    # print(t)
+    t = (t / 500) + 100
+    # print(t)
+    # https://www.desmos.com/calculator/byou3zc63w
+    sinfunc = sum([0.15 * math.sin((0.5 / i) * t) for i in range(1, 20+1)])
+    return 50000 + (180000*sinfunc)
 
-def bandwidth_from_time(x):
-    print(x)
-    if (x % 180) < 90:
-        return 50_000
-    else:
-        return 500
-    # return (80000 * math.floor((x/1000) % 2)) + 20000
+# def bandwidth_from_time(x):
+#     print(x)
+#     m = 60
+#     if (x % (m*2)) < m:
+#         return 200_000
+#     else:
+#         return 1_000
+#     # return (80000 * math.floor((x/1000) % 2)) + 20000
 
 with open("main.js", "r") as f:
     funcjs = f.read()
@@ -121,17 +122,17 @@ def run_for_url(url, skip_yt_ads=False):
 
 
             if (round(seconds) % STEP == 0 and (seconds - last_s) > 1):
-                bw = bandwidth_from_time(seconds)
+                bw = max(50, bandwidth_from_time(seconds))
                 last_s = seconds
                 setBandwidth(bw)
-                print(seconds, 'set bandwidth to', bw/1000, "mbps")
+                print(seconds, 'set bandwidth to', bw, "kbps")
 
             time.sleep(DT)
 
             output = driver.execute_script(funcjs)
             output["bandwidth"] = bw
             output["t"] = seconds
-            print(seconds, bw, end="                                                         \r")
+            # print(seconds, bw, end="                                                         \r")
             data.append(output)
             if output["percent"] is not None and output["percent"] > 0.999 and output["current_time"] > 120:
                 print("ENDING VIDEO, STARTING NEXT @@@@@@@@@@@@@@@@@@@@@@@@@")
