@@ -16,7 +16,7 @@ import csv
 
 STEP = 10 # s
 
-DT = 0.2 # s
+DT = 20 # s
 INTERFACE = "wlp1s0"
 
 # os.system(f"sudo tc qdisc add dev {INTERFACE} handle ffff: ingress")
@@ -49,13 +49,9 @@ def setBandwidth(Kbps):
         # os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {Kbps} 2> err.log")
 
 def bandwidth_from_time(t):
-    # print("\n"*10)
-    # print(t)
-    t = (t / 500) + 100
-    # print(t)
-    # https://www.desmos.com/calculator/byou3zc63w
-    sinfunc = sum([0.15 * math.sin((0.5 / i) * t) for i in range(1, 20+1)])
-    return 50000 + (180000*sinfunc)
+    # https://www.desmos.com/calculator/lcbhf2byjk
+    sinfunc = sum([math.sin( t / (10 * i) ) for i in range(1, 20+1)])
+    return 500_000 + (70_000*sinfunc)
 
 # def bandwidth_from_time(x):
 #     print(x)
