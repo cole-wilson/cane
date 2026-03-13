@@ -16,8 +16,8 @@ import csv
 
 STEP = 10 # s
 
-DT = 20 # s
-INTERFACE = "wlp1s0"
+DT = 1 # s
+INTERFACE = "eno1"
 
 # os.system(f"sudo tc qdisc add dev {INTERFACE} handle ffff: ingress")
 
@@ -43,15 +43,20 @@ def setBandwidth(Kbps):
     bandwidth = Kbps
     # if op_sys == "Darwin":
         # ...
-    driver.set_network_conditions(offline=False,latency=0,throughput=bandwidth*1024)
+    # driver.set_network_conditions(
+    #     offline=False,
+    #     latency=0,
+    #     throughput=Kbps * 1024 / 8
+    # )
     # else:
-        # os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c  2> err.log") #
-        # os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {Kbps} 2> err.log")
+    os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -c  2> err.log") #
+    os.system(f"sudo ../wondershaper/wondershaper -a {INTERFACE} -d {Kbps} 2> err.log")
 
 def bandwidth_from_time(t):
-    # https://www.desmos.com/calculator/lcbhf2byjk
-    sinfunc = sum([math.sin( t / (10 * i) ) for i in range(1, 20+1)])
-    return 500_000 + (70_000*sinfunc)
+    # return 1_000
+    sinfunc = math.sin(t/1200)
+    S = 1.6
+    return max(80_000 + ((120_000/S)*round(S*sinfunc)), 500)
 
 # def bandwidth_from_time(x):
 #     print(x)
@@ -143,10 +148,10 @@ def run_for_url(url, skip_yt_ads=False):
 data = []
 
 video_urls = [
-    "https://www.youtube.com/watch?v=KLuTLF3x9sA",
-    "https://www.youtube.com/watch?v=-QXrbXYE4jE",
-    "https://www.youtube.com/watch?v=aellLMtz3UI",
-    "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    # "https://www.youtube.com/watch?v=KLuTLF3x9sA",
+    # "https://www.youtube.com/watch?v=-QXrbXYE4jE",
+    # "https://www.youtube.com/watch?v=aellLMtz3UI",
+    # "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     "https://www.youtube.com/watch?v=ciSNHrKrkeQ",
     "https://www.youtube.com/watch?v=7H7cTSml5zk",
     "https://www.youtube.com/watch?v=LDU_Txk06tM"
